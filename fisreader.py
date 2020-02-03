@@ -16,12 +16,12 @@ def logopen(logfilename):
 
             # get names
             for i in range(param_count):
-                buf = log.read(2)
-                key = int.from_bytes(buf, byteorder='little')
-                param_names.append(log_param_names[key])
-                print('added', i,' element')
+                buf = log.read(2) # temp variable for readed data
+                key = int.from_bytes(buf, byteorder='little') # encrypt data to int
+                param_names.append(log_param_names[key]) # add name got by int
+                print('added', i,' element') # debug sake console output
 
-            log.seek((6+param_count*2),0) # go to DATA section on file
+            log.seek((6+param_count*2),0) # go to DATA section on file,  
             #log.seek(124,0) # go to DATA section on file
             buf = 0x01 # init buffer value
             j = 0 # points count
