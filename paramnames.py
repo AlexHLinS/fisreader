@@ -1,4 +1,10 @@
-# this file used to alias parameter names
+#
+# F-Con iS log file parameter names aliases
+#
+# This module provide aliases for parameter names
+#
+# Author: Alex Shkil aka HLinS
+#
 
 # Parameter's names
 log_param_names = {
