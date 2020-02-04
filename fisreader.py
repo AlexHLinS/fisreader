@@ -13,6 +13,9 @@ import csv
 from paramnames import log_param_names
 # import fuel and ignition calculations module
 from fi_calculations import calc_inj_flow, calc_fuel_mass, calc_air_mass_from_afr, mmHg_to_mPa
+=======
+import fi_calculations
+>>>>>>> 736bb2f756037a286ad14a8fd0aed1f9d906fc3d
 
 param_count = 0
 param_names = []
@@ -121,4 +124,3 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
