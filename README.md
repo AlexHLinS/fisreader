@@ -6,4 +6,4 @@ This project was started.
 
 Programm get file name via command line and extract log data from it.
 
-Usage: python fisreader.py datalogfilename
+Usage: python fisreader.py datalogfilename.fis
