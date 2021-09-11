@@ -12,9 +12,9 @@ Since this ECU has no free software to tuning it up, I've start to make own util
 
 # TODO list:
 
- [ X ] Tool for converting iS PowerWriter files to CSV 
- [  ] Tool for getting password from ECU
- [  ] Tool for reading/writing ECU calibrations to/from file
- [  ] Tool for editing ECU calibration's files
- [  ] Tool for ECU online calibration
+- [X] Tool for converting iS PowerWriter files to CSV 
+- [ ] Tool for getting password from ECU
+- [ ] Tool for reading/writing ECU calibrations to/from file
+- [ ] Tool for editing ECU calibration's files
+- [ ] Tool for ECU online calibration
 
