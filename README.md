@@ -13,12 +13,12 @@ Usage: python fisreader.py datalogfilename.fis
 # Dependencies 
 
 Libs you're needed: 
-- sys; 
-- csv.
+- sys 
+- csv
 
 Also yor're also need to download this files from repo: 
-- paramnames 
-- fi_calculations
+- paramnames.py 
+- fi_calculations.py
 
 # Installations
 git clone https://github.com/AlexHLinS/fisreader.git
