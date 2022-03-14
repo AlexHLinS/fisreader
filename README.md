@@ -15,6 +15,7 @@ Usage: python fisreader.py datalogfilename.fis
 Libs you're needed: 
 - sys; 
 - csv.
+
 Also yor're also need to download this files from repo: 
 - paramnames 
 - fi_calculations
