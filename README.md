@@ -21,9 +21,9 @@ Also yor're also need to download this files from repo:
 - fi_calculations.py
 
 # Installations
-```{bash} {git clone https://github.com/AlexHLinS/fisreader.git}```
-cd fisreader
-python fisreader.py datalogfilename.fis
+```git clone https://github.com/AlexHLinS/fisreader.git```
+```cd fisreader```
+```python fisreader.py datalogfilename.fis```
 [/code]
 where datalogfilename.fis - datalog file in F-CON iS log files format
 
