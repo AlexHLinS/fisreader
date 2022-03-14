@@ -27,7 +27,7 @@ Also yor're also need to download this files from repo:
 
 ```python fisreader.py datalogfilename.fis```
 
-where datalogfilename.fis - datalog file in F-CON iS log files format
+where datalogfilename.fis is datalog file in F-CON iS log files format
 
 # TODO list:
 
