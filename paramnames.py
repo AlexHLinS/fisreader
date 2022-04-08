@@ -1,7 +1,7 @@
 #
 # F-Con iS log file parameter names aliases
 #
-# This module provide aliases for parameter names
+# This module provides aliases for parameter names
 #
 # Author: Alex Shkil aka HLinS
 #
@@ -14,7 +14,7 @@ log_param_names = {
     1024: 'Throttle differential, %',
     1280: 'AirFlow#1 input, mV',
     1536: 'AirFlow#2 input, mV',
-    1792: 'AirFlow input avarage, mV',
+    1792: 'AirFlow input average, mV',
     2048: 'AirFlow input Karman, Hz',
     2304: 'AirFlow#1 output, mV',
     2560: 'AirFlow#2 output, mV',
@@ -32,7 +32,7 @@ log_param_names = {
     5632: 'AIC output, usec',
     5888: 'AIC main map, usec',
     6144: 'AIC dead time, usec',
-    6400: 'Battary, mV',
+    6400: 'Battery, mV',
     6656: 'Option output #1, usec',
     6912: 'Option output #2, usec',
     7168: 'Coolant temp, deg C',
@@ -43,7 +43,7 @@ log_param_names = {
     8448: 'EIDS',
     8704: 'Target A/F',
     8960: 'Trim: Fuel: Sum',
-    9216: 'Trim: Igmition: Sum',
+    9216: 'Trim: Ignition: Sum',
     9472: 'Trim: AIC: Sum',
     9728: 'Trim: Fuel: A',
     9984: 'Trim: Fuel: B',
@@ -66,7 +66,7 @@ log_param_names = {
     14336: 'Scramble time',
     14592: 'Ignition: Shift up',
     14848: 'Ignition: Shift down',
-    15104: 'OBD: Close-loop cancelation',
+    15104: 'OBD: Close-loop cancellation',
     15360: 'OBD: Ignition timing input #1',
     15616: 'OBD: A/F Trim #1',
     15872: 'OBD: A/F Study #1',

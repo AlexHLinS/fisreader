@@ -21,15 +21,16 @@ param_values = list([])
 
 
 # opening file method
-def log_open(logfilename):
+def log_open(log_file_name):
+    global param_count
     try:
-        with open(logfilename, "rb") as log:
+        with open(log_file_name, "rb") as log:
             param_count = ord(log.read(1))  # get param count
             print("Param count =", param_count)
 
             # get names
             for i in range(param_count):
-                buf = log.read(2)  # temp variable for readed data
+                buf = log.read(2)  # temp variable for red data
                 # encrypt data to int
                 key = int.from_bytes(buf, byteorder='little')
                 param_names.append(log_param_names[key])  # add name got by int
@@ -53,29 +54,30 @@ def log_open(logfilename):
                 j += 1
 
             param_values.pop(-1)  # cut last zero valued element
-            # print(param_values)  # print it for shure
+            # print(param_values)  # print it for sure
             print("Found", j, "points with", param_count,
                   "variables!")  # show statistics
             # print("Names:", param_names) # debug sake
 
-            param_value_normiliser(param_names, param_values)
-    except:
-        return False  # if error occure - return False
+            param_value_normaliser(param_names, param_values)
+    except Exception as e:
+        print(f'Error: {e}')
+        return False  # if error occur - return False
     return True
 
 
-def param_value_normiliser(param_names, param_values):
-    for i in range(len(param_values)):
-        for j in range(len(param_names)):
+def param_value_normaliser(parameters_names, parameters_values):
+    for i in range(len(parameters_values)):
+        for j in range(len(parameters_names)):
             # checking and "fixing" negative values, in log
             # negative values represented as "max(USHRT_MAX) + value"
             # for example, -5 => USHRT_MAX + (-5) = 65535 - 5 = 65530
-            if param_values[i][j] > 65000:
-                param_values[i][j] = param_values[i][j] - 65535
-            # checking and "fixing" A/F values, this ones represented as A/F*100:
+            if parameters_values[i][j] > 65000:
+                parameters_values[i][j] = parameters_values[i][j] - 65535
+            # checking and "fixing" A/F values, these represented as A/F*100:
             # for example, 14,7 => A/F*100 = 1470
-            if (param_names[j] == log_param_names[3328]) or (param_names[j] == log_param_names[8704]):
-                param_values[i][j] = float(param_values[i][j] / 100)
+            if (parameters_names[j] == log_param_names[3328]) or (parameters_names[j] == log_param_names[8704]):
+                parameters_values[i][j] = float(parameters_values[i][j] / 100)
     return 1
 
 
@@ -91,38 +93,38 @@ def csv_gen():
 
 
 def afr_cal_csv():
-    Pf = 4.0
-    Gf = 0.740
-    Injf = 370
-    InjfP = 3.05
+    pf = 4.0
+    gf = 0.740
+    injf = 370
+    injf_p = 3.05
 
     with open(argv[1]+'_AFRcal.csv', 'w', newline='') as csv_out:
         csv_writer = csv.writer(csv_out, dialect='excel')
         csv_writer.writerow(['MAF', 'Voltage'])
         for i in range(len(param_values)):
             pi = param_names.index('Pressure, mm Hg')
-            MAP = fi_calculations.mmHg_to_mPa(param_values[i][pi])
+            map_value = fi_calculations.mm_hg_to_m_pa(param_values[i][pi])
             ai = param_names.index('A/F')
-            AF = param_values[i][ai]
+            af = param_values[i][ai]
             ti = param_names.index('Fuel: Main output, usec')
-            T = param_values[i][ti]
-            FR = fi_calculations.calc_inj_flow(Pf, MAP, Injf, InjfP)
-            FM = fi_calculations.calc_fuel_mass(FR, Gf, T)
-            MAF = fi_calculations.calc_air_mass_from_afr(FM, AF/100)
+            t = param_values[i][ti]
+            fr = fi_calculations.calc_inj_flow(pf, map_value, injf, injf_p)
+            fm = fi_calculations.calc_fuel_mass(fr, gf, t)
+            maf = fi_calculations.calc_air_mass_from_afr(fm, af/100)
 
-            AIT = param_values[i][param_names.index(
+            ait = param_values[i][param_names.index(
                 'Intake air temp, deg C')] + 273.15
 
-            Dest = (MAP * 1000) / (AIT + 287.058)  # kg/m3
+            dest = (map_value * 1000) / (ait + 287.058)  # kg/m3
 
             vi = param_names.index('AirFlow#1 output, mV')
 
-            if Dest != 0:
-                VAF = MAF / Dest / 1000  # MPa / kg / m3 -> m3
-                csv_writer.writerow([VAF, param_values[i][vi]])
+            if dest != 0:
+                vaf = maf / dest / 1000  # MPa / kg / m3 -> m3
+                csv_writer.writerow([vaf, param_values[i][vi]])
 
     csv_out.close()
-    print('All AF calibration data put in ->', csv_out.name)
+    print('All af calibration data put in ->', csv_out.name)
     return
 
 # main method
@@ -131,7 +133,7 @@ def afr_cal_csv():
 def main():
     # checking execute string
     if len(argv) != 2:
-        print("Usage: python fisreader.py datalogfilename")
+        print("Usage: python fisreader.py datalog_filename")
         exit(1)
 
     # error of opening file
