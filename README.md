@@ -1,12 +1,13 @@
 # fisreader
-Tool to work with F-CON iS log files
+OpenSource tool for manging F-CON iS log files, calibration files, units
+
 # About
 A lot of exported JDM cars has piggy-back ECU F-CON iS prodused by HKS company.
 Since this ECU has no free software to tuning it up, I've start to make own utils to resolve this problem.
 
 
 # Description
-Programm get file name via command line and extract log data from it.
+fisreader.py - tool to convert ECU F-CON iS datalog files to CSV: Programm get file name via command line and extract log data from it.
 
 Usage: python fisreader.py datalogfilename.fis
 
@@ -16,9 +17,9 @@ Libs you're needed:
 - sys 
 - csv
 
-Also yor're also need to download this files from repo: 
-- paramnames.py 
-- fi_calculations.py
+Also yor're also you have to download this files from repo: 
+- paramnames.py - defenition of log's parameters
+- fi_calculations.py (functionality in progress)
 
 # Installations
 ```git clone https://github.com/AlexHLinS/fisreader.git```
