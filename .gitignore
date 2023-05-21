@@ -1,3 +1,14 @@
 /__pycache__
 *.csv
 /.vscode
+/FCONmon_src10
+/.idea
+/.pytest_cache
+/.mypy_cache
+/fisreadervenv
+*.txt
+/test_data
+*__pycache__*
+/untitled
+.DS_Store
+CMakeLists.txt
