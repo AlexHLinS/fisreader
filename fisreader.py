@@ -33,8 +33,8 @@ def log_open(log_file_name):
                 buf = log.read(2)  # temp variable for red data
                 # encrypt data to int
                 key = int.from_bytes(buf, byteorder='little')
-                param_names.append(log_param_names[key])  # add name got by int
-                # print('added', i,' element') # debug sake console output
+                param_names.append(log_param_names.get(key, f"Unknown#{key}"))  # add name got by int
+                # print(f'added {i+1} element') # debug sake console output
 
             # go to DATA section on file (header 6 bytes + parameters list (param_count)*2 bytes)
             log.seek((6+param_count*2), 0)
@@ -60,8 +60,8 @@ def log_open(log_file_name):
             # print("Names:", param_names) # debug sake
 
             param_value_normaliser(param_names, param_values)
-    except Exception as e:
-        print(f'Error: {e}')
+    except Exception as general_exception:
+        print(f'Error: {str(general_exception)}')
         return False  # if error occur - return False
     return True
 
@@ -76,13 +76,15 @@ def param_value_normaliser(parameters_names, parameters_values):
                 parameters_values[i][j] = parameters_values[i][j] - 65535
             # checking and "fixing" A/F values, these represented as A/F*100:
             # for example, 14,7 => A/F*100 = 1470
-            if (parameters_names[j] == log_param_names[3328]) or (parameters_names[j] == log_param_names[8704]):
+            if (parameters_names[j] == log_param_names[3328]) \
+                or (parameters_names[j] == log_param_names[8704]):
                 parameters_values[i][j] = float(parameters_values[i][j] / 100)
     return 1
 
 
-def csv_gen():
-    with open(argv[1]+'.csv', 'w', newline='') as csv_out:
+def csv_gen(filename: str):
+    """ Generate csv from extracted parameters """
+    with open(filename+'.csv', 'w', newline='', encoding='utf-8') as csv_out:
         csv_writer = csv.writer(csv_out, dialect='excel')
         csv_writer.writerow(param_names)
         for i in range(len(param_values)):
@@ -102,22 +104,22 @@ def afr_cal_csv():
         csv_writer = csv.writer(csv_out, dialect='excel')
         csv_writer.writerow(['MAF', 'Voltage'])
         for i in range(len(param_values)):
-            pi = param_names.index('Pressure, mm Hg')
+            pi = param_names.index(log_param_names.get(512))
             map_value = fi_calculations.mm_hg_to_m_pa(param_values[i][pi])
-            ai = param_names.index('A/F')
+            ai = param_names.index(log_param_names.get(3328))
             af = param_values[i][ai]
-            ti = param_names.index('Fuel: Main output, usec')
+            ti = param_names.index(log_param_names.get(4608))
             t = param_values[i][ti]
             fr = fi_calculations.calc_inj_flow(pf, map_value, injf, injf_p)
             fm = fi_calculations.calc_fuel_mass(fr, gf, t)
             maf = fi_calculations.calc_air_mass_from_afr(fm, af/100)
 
             ait = param_values[i][param_names.index(
-                'Intake air temp, deg C')] + 273.15
+                log_param_names.get(7424))] + 273.15
 
             dest = (map_value * 1000) / (ait + 287.058)  # kg/m3
 
-            vi = param_names.index('AirFlow#1 output, mV')
+            vi = param_names.index(log_param_names.get(1280))
 
             if dest != 0:
                 vaf = maf / dest / 1000  # MPa / kg / m3 -> m3
@@ -132,16 +134,17 @@ def afr_cal_csv():
 
 def main():
     # checking execute string
-    if len(argv) != 2:
+    try:
+        log_filename = argv[1]
+    except IndexError:
         print("Usage: python fisreader.py datalog_filename")
         exit(1)
-
     # error of opening file
-    if not log_open(argv[1]):
-        print("error opening file", argv[1])
+    if not log_open(log_file_name=log_filename):
+        print("error opening file", log_filename)
         exit(2)
 
-    csv_gen()
+    csv_gen(filename=log_filename)
     afr_cal_csv()
 
     return
